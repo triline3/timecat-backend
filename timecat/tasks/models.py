@@ -1,5 +1,5 @@
 from django.db import models
-import django.utils.timezone as timezone
+# import django.utils.timezone as timezone
 
 
 class Task(models.Model):
@@ -16,7 +16,7 @@ class Task(models.Model):
     )
     title = models.CharField(max_length=100, blank=True, default='No title')
     detail = models.TextField(blank=True, default='')
-    date = models.DateTimeField(null=True, default=timezone.now)
+    date = models.DateTimeField(null=True)
     isDone = models.BooleanField(default=False)
 
     class Meta:
