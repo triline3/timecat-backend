@@ -48,7 +48,8 @@ class Task(models.Model):
     plan = models.ForeignKey(
         Plan,
         related_name='tasks',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True
     )
     title = models.CharField(max_length=100, blank=True, default='No title')
     content = models.TextField(blank=True, default='')

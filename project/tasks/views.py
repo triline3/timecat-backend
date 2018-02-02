@@ -1,8 +1,11 @@
 # from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+
 from project.tasks.models import Task, Tag, Account, Plan
 from project.tasks.serializers import UserSerializer, TaskSerializer, TagSerializer
 from project.tasks.serializers import AccountSerializer, PlanSerializer
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -13,6 +16,15 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def perform_create(self, serializer):
+        if 'password' in serializer.validated_data.keys():
+            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+        serializer.save(username=serializer.validated_data['email'])
+
+    def perform_update(self, serializer):
+        if 'password' in serializer.validated_data.keys():
+            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+        serializer.save(username=serializer.validated_data['email'])
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
