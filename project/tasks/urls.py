@@ -1,13 +1,15 @@
-from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.urls import path, include
+from rest_framework import routers
 from project.tasks import views
 
 
-urlpatterns = [
-    path('tasks/', views.TaskList.as_view()),
-    path('tasks/<int:pk>/', views.TaskDetail.as_view()),
-    path('users/', views.UserList.as_view()),
-    path('users/<int:pk>/', views.UserDetail.as_view()),
-]
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'accounts', views.AccountViewSet)
+router.register(r'tasks', views.TaskViewSet)
+router.register(r'tags', views.TagViewSet)
+router.register(r'plans', views.PlanViewSet)
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+urlpatterns = [
+    path('', include(router.urls)),
+]

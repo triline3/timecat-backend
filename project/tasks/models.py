@@ -57,14 +57,14 @@ class Task(models.Model):
         Tag,
         related_name='tasks',
     )
-    
+
     is_finish = models.BooleanField(default=False)
     finished = models.DateTimeField(null=True)
 
     is_all_day = models.BooleanField(default=True)
     begin = models.DateTimeField(null=True)
     end = models.DateTimeField(null=True)
-    
+
     class Meta:
         ordering = ('created', )
 
@@ -73,7 +73,7 @@ class Account(models.Model):
     """
     Model: 账户信息
     """
-    owner = models.OneToOneField(
+    user = models.OneToOneField(
         'auth.User',
         related_name='account',
         on_delete=models.CASCADE
