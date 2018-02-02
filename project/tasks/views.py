@@ -1,7 +1,7 @@
 # from django.shortcuts import render
 from django.contrib.auth.models import User
-from tasks.models import Task
-from tasks.serializers import UserSerializer, TaskSerializer
+from project.tasks.models import Task
+from project.tasks.serializers import UserSerializer, TaskSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
