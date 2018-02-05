@@ -2,3 +2,6 @@ django==2.0.1
 djangorestframework==3.7.7
 Django-environ==0.4.4
 django-filter
+drf-yasg
+swagger_spec_validator 
+flex 

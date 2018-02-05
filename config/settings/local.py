@@ -10,3 +10,5 @@ DEBUG = env.bool('DJANGO_DEBUG', default=True)
 ALLOWED_HOSTS = [
     'localhost',
 ]
+
+# REST_FRAMEWORK['HIDE_DOCS'] = True
