@@ -24,6 +24,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # Application definition
 
 DJANGO_APPS = (
+    'bootstrap_admin',  #一定要放在`django.contrib.admin`前面
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,7 +36,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'rest_framework',
     'django_filters',
-    'drf_yasg',
+    'drf_yasg',  # 自动生成docs
 )
 
 LOCAL_APPS = (
@@ -149,3 +150,4 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
 
+>>>>>>> d412af047c48cde6ddcea9bfb6aef48adb5ffd82
