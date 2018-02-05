@@ -149,5 +149,3 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
-
->>>>>>> d412af047c48cde6ddcea9bfb6aef48adb5ffd82
