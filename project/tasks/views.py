@@ -15,16 +15,20 @@ from rest_framework import permissions
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    lookup_field = 'email'
+    lookup_value_regex = '[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}'
 
     def perform_create(self, serializer):
         if 'password' in serializer.validated_data.keys():
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
-        serializer.save(username=serializer.validated_data['email'])
+        if 'username' not in serializer.validated_data.keys():
+            serializer.save(username=serializer.validated_data['email'])
 
     def perform_update(self, serializer):
         if 'password' in serializer.validated_data.keys():
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
-        serializer.save(username=serializer.validated_data['email'])
+        # serializer.save(username=serializer.validated_data['email'])
+
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()

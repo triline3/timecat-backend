@@ -5,19 +5,20 @@ from django.contrib.auth.models import User
 
 
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.HyperlinkedIdentityField(
+    user = serializers.HyperlinkedRelatedField(
         read_only=True,
-        view_name='user-detail'
+        view_name='user-detail',
+        lookup_field='email'
     )
 
     class Meta:
         model = Account
-        fields = ('id', 'url', 'user', 'nickname')
+        fields = ('user', 'nickname')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     account = AccountSerializer()
-    username = serializers.CharField(read_only=True)
+    username = serializers.CharField(required=False)
     password = serializers.CharField(write_only=True, required=False)
     plans = serializers.HyperlinkedRelatedField(
         many=True,
@@ -34,14 +35,17 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         view_name='task-detail'
     )
+    url = serializers.HyperlinkedIdentityField(
+        view_name='user-detail',
+        lookup_field='email'
+    )
 
     class Meta:
         model = User
-        fields = ('id', 'url', 'account', 'username', 'email', 'password', 'is_staff', 'plans', 'tags', 'tasks')
+        fields = ('url', 'account', 'username', 'email', 'password', 'is_staff', 'plans', 'tags', 'tasks')
 
     def create(self, validated_data):
         account_data = validated_data.pop('account')
-        print(validated_data)
         user = User.objects.create(**validated_data)
         account = Account.objects.create(user=user, **account_data)
         user.account = account
@@ -58,26 +62,43 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PlanSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.HyperlinkedRelatedField(
+        queryset=User.objects.all(),
+        view_name='user-detail',
+        lookup_field='email'
+    )
+
     class Meta:
         model = Plan
-        fields = ('id', 'url', 'owner', 'created', 'name', 'detail', 'tasks')
+        fields = ('url', 'owner', 'created', 'name', 'detail', 'tasks')
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.HyperlinkedRelatedField(
+        queryset=User.objects.all(),
+        view_name='user-detail',
+        lookup_field='email'
+    )
+
     class Meta:
         model = Tag
-        fields = ('id', 'url', 'owner', 'created', 'name', 'tasks')
+        fields = ('url', 'owner', 'created', 'name', 'tasks')
 
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     plan = serializers.HyperlinkedRelatedField(queryset=Plan.objects.all(), required=False, view_name='plan-detail')
     tags = serializers.HyperlinkedRelatedField(many=True, queryset=Tag.objects.all(), required=False, view_name='tag-detail')
     is_all_day = serializers.BooleanField(default=True)
+    owner = serializers.HyperlinkedRelatedField(
+        queryset=User.objects.all(),
+        view_name='user-detail',
+        lookup_field='email'
+    )
 
     class Meta:
         model = Task
         fields = (
-            'id', 'url', 'owner', 'created',
+            'url', 'owner', 'created',
             'plan', 'title', 'content', 'label', 'tags',
             'is_finish', 'finished',
             'is_all_day', 'begin', 'end',
