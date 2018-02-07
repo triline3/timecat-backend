@@ -6,7 +6,7 @@ class Plan(models.Model):
     """
     Model: 计划
     """
-    created = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
         'auth.User',
         related_name='plans',
@@ -16,14 +16,14 @@ class Plan(models.Model):
     detail = models.TextField(blank=True, default='')
 
     class Meta:
-        ordering = ('created', )
+        ordering = ('created_datetime', )
 
 
 class Tag(models.Model):
     """
     Model: 标签
     """
-    created = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
         'auth.User',
         related_name='tags',
@@ -38,7 +38,7 @@ class Task(models.Model):
     Fields: 创建时间(created), 创建者(owner), 任务标题(title), 任务详情(detail),
             任务日期时间(date), 是否完成(isDone)
     """
-    created = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
         'auth.User',
         related_name='tasks',
@@ -59,15 +59,15 @@ class Task(models.Model):
         related_name='tasks',
     )
 
-    is_finish = models.BooleanField(default=False)
-    finished = models.DateTimeField(null=True)
+    is_finished = models.BooleanField(default=False)
+    finished_datetime = models.DateTimeField(null=True, default=None)
 
     is_all_day = models.BooleanField(default=True)
-    begin = models.DateTimeField(null=True)
-    end = models.DateTimeField(null=True)
+    begin_datetime = models.DateTimeField(null=True, default=None)
+    end_datetime = models.DateTimeField(null=True, default=None)
 
     class Meta:
-        ordering = ('created', )
+        ordering = ('created_datetime', )
 
 
 class Account(models.Model):

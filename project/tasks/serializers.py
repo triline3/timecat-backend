@@ -19,6 +19,7 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     account = AccountSerializer(required=False)
     username = serializers.CharField(required=False)
+    email = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=False)
     plans = serializers.HyperlinkedRelatedField(
         many=True,
@@ -42,7 +43,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('url', 'account', 'username', 'email', 'password', 'is_staff', 'plans', 'tags', 'tasks')
+        fields = ('url', 'account', 'username', 'email', 'password', 'plans', 'tags', 'tasks')
 
     def create(self, validated_data):
         account_data = validated_data.pop('account')
@@ -67,10 +68,11 @@ class PlanSerializer(serializers.HyperlinkedModelSerializer):
         view_name='user-detail',
         lookup_field='email'
     )
+    tasks = serializers.HyperlinkedRelatedField(many=True, queryset=Task.objects.all(), required=False, view_name='task-detail')
 
     class Meta:
         model = Plan
-        fields = ('url', 'owner', 'created', 'name', 'detail', 'tasks')
+        fields = ('url', 'owner', 'created_datetime', 'name', 'detail', 'tasks')
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
@@ -79,10 +81,11 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
         view_name='user-detail',
         lookup_field='email'
     )
+    tasks = serializers.HyperlinkedRelatedField(many=True, queryset=Task.objects.all(), required=False, view_name='task-detail')
 
     class Meta:
         model = Tag
-        fields = ('url', 'owner', 'created', 'name', 'tasks')
+        fields = ('url', 'owner', 'created_datetime', 'name', 'tasks')
 
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
@@ -98,8 +101,8 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Task
         fields = (
-            'url', 'owner', 'created',
+            'url', 'owner', 'created_datetime',
             'plan', 'title', 'content', 'label', 'tags',
-            'is_finish', 'finished',
-            'is_all_day', 'begin', 'end',
+            'is_finished', 'finished_datetime',
+            'is_all_day', 'begin_datetime', 'end_datetime',
         )

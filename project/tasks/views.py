@@ -27,7 +27,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         if 'password' in serializer.validated_data.keys():
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
-        # serializer.save(username=serializer.validated_data['email'])
+        serializer.save()
 
 
 class AccountViewSet(viewsets.ModelViewSet):
