@@ -17,7 +17,7 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    account = AccountSerializer()
+    account = AccountSerializer(required=False)
     username = serializers.CharField(required=False)
     password = serializers.CharField(write_only=True, required=False)
     plans = serializers.HyperlinkedRelatedField(
