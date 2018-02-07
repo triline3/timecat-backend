@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
+
 from project.tasks.models import Task, Account, Plan, Task, Tag
 
 from django.contrib.auth.models import User
@@ -18,8 +20,8 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     account = AccountSerializer(required=False)
-    username = serializers.CharField(required=False)
-    email = serializers.CharField(required=True)
+    username = serializers.CharField(required=False, validators=[UniqueValidator(queryset=User.objects.all())])
+    email = serializers.CharField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(write_only=True, required=False)
     plans = serializers.HyperlinkedRelatedField(
         many=True,
