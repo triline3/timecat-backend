@@ -108,3 +108,8 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
             'is_finished', 'finished_datetime',
             'is_all_day', 'begin_datetime', 'end_datetime',
         )
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
