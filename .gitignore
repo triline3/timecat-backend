@@ -111,3 +111,6 @@ ENV/
 # local_settings
 
 .vscode/
+
+# local_files
+project/tasks/migrations/

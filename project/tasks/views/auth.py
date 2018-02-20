@@ -35,7 +35,7 @@ class LoginView(APIView):
             else:
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
         else:
-            return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutView(APIView):
