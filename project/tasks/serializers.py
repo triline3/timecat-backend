@@ -12,7 +12,7 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
         view_name='user-detail',
         lookup_field='email'
     )
-
+    nickname = serializers.CharField(required=False)
     class Meta:
         model = Account
         fields = ('user', 'nickname')
@@ -48,7 +48,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'account', 'username', 'email', 'password', 'plans', 'tags', 'tasks')
 
     def create(self, validated_data):
-        account_data = validated_data.pop('account')
+        account_data = {}
+        if 'account' in validated_data.keys():
+            account_data = validated_data.pop('account')
         user = User.objects.create(**validated_data)
         account = Account.objects.create(user=user, **account_data)
         user.account = account
@@ -56,7 +58,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        account_data = validated_data.pop('account')
+        account_data = {}
+        if 'account' in validated_data.keys():
+            account_data = validated_data.pop('account')
         account = instance.account
         serializer = AccountSerializer(account, data=account_data)
         assert serializer.is_valid()
