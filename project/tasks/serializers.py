@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from project.tasks.models import Task, Account, Plan, Task, Tag
+from project.tasks.models import Task, Account, Plan, Task, Tag, Note
 
 from django.contrib.auth.models import User
 
@@ -112,6 +112,12 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
             'is_finished', 'finished_datetime',
             'is_all_day', 'begin_datetime', 'end_datetime',
         )
+
+
+class NoteSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Note
+        fields = ('title', 'content')
 
 
 class LoginSerializer(serializers.Serializer):

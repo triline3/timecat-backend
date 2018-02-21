@@ -3,6 +3,7 @@ from rest_framework import routers
 from project.tasks.views.tasks import TaskViewSet
 from project.tasks.views.tasks import TagViewSet
 from project.tasks.views.tasks import PlanViewSet
+from project.tasks.views.tasks import NoteViewSet
 from project.tasks.views.users import UserViewSet
 from project.tasks.views.users import AccountViewSet
 from project.tasks.views.auth import LoginView, LogoutView, ExampleView
@@ -14,6 +15,7 @@ router.register(r'accounts', AccountViewSet)
 router.register(r'tasks', TaskViewSet)
 router.register(r'tags', TagViewSet)
 router.register(r'plans', PlanViewSet)
+router.register(r'notes', NoteViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

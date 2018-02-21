@@ -80,3 +80,11 @@ class Account(models.Model):
         on_delete=models.CASCADE
     )
     nickname = models.CharField(max_length=100, blank=True, default='No name')
+
+
+class Note(models.Model):
+    """
+    Model: 简单笔记
+    """
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=400, blank=True)

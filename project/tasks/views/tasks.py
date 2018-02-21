@@ -1,7 +1,8 @@
-from project.tasks.models import Task, Tag, Plan
+from project.tasks.models import Task, Tag, Plan, Note
 from project.tasks.serializers import TaskSerializer
 from project.tasks.serializers import TagSerializer
 from project.tasks.serializers import PlanSerializer
+from project.tasks.serializers import NoteSerializer
 
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -20,3 +21,8 @@ class TagViewSet(viewsets.ModelViewSet):
 class PlanViewSet(viewsets.ModelViewSet):
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
+
+
+class NoteViewSet(viewsets.ModelViewSet):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
