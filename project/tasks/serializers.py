@@ -115,9 +115,15 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class NoteSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.HyperlinkedRelatedField(
+        queryset=User.objects.all(),
+        view_name='user-detail',
+        lookup_field='email'
+    )
+
     class Meta:
         model = Note
-        fields = ('title', 'content')
+        fields = ('url', 'owner', 'title', 'content')
 
 
 class LoginSerializer(serializers.Serializer):

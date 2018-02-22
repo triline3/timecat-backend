@@ -84,7 +84,13 @@ class Account(models.Model):
 
 class Note(models.Model):
     """
-    Model: 简单笔记
+    Model: 笔记
     """
+    owner = models.ForeignKey(
+        'auth.User',
+        related_name='notes',
+        on_delete=models.CASCADE
+    )
+    created_datetime = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=400, blank=True)
