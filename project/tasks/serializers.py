@@ -123,7 +123,7 @@ class NoteSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Note
-        fields = ('url', 'owner', 'title', 'content')
+        fields = ('url', 'owner', 'title', 'content', 'created_datetime')
 
 
 class LoginSerializer(serializers.Serializer):
