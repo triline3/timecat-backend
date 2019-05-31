@@ -1,5 +1,5 @@
 django==2.0.12
-djangorestframework==3.7.7
+djangorestframework==3.9.1
 Django-environ==0.4.4
 django-filter
 bootstrap-admin
